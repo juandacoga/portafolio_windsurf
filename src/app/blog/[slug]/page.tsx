@@ -12,9 +12,7 @@ export default function SingleBlogPost({ params }: { params: Promise<{ slug: str
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('Buscando post con slug:', resolvedParams.slug);
     const foundPost = blogPosts.find(p => p.id === resolvedParams.slug);
-    console.log('Post encontrado:', foundPost);
     setPost(foundPost);
     setLoading(false);
   }, [resolvedParams.slug]);
@@ -23,7 +21,7 @@ export default function SingleBlogPost({ params }: { params: Promise<{ slug: str
     return (
       <div className="min-h-screen flex flex-col">
         <Header />
-        <main className="flex-grow flex items-center justify-center">
+        <main className="grow flex items-center justify-center">
           <p className="text-xl text-gray-700">Cargando...</p>
         </main>
         <Footer />
@@ -35,7 +33,7 @@ export default function SingleBlogPost({ params }: { params: Promise<{ slug: str
     return (
       <div className="min-h-screen flex flex-col">
         <Header />
-        <main className="flex-grow flex items-center justify-center">
+        <main className="grow flex items-center justify-center">
           <p className="text-xl text-gray-700">Post no encontrado</p>
           <Link href="/blog" className="ml-4 text-blue-600 hover:text-blue-800">
             Volver al blog
@@ -52,9 +50,9 @@ export default function SingleBlogPost({ params }: { params: Promise<{ slug: str
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      <main className="flex-grow">
+      <main className="grow">
         {/* Hero Image */}
-        <section className="w-full h-64 md:h-96 bg-gray-200 flex items-center justify-center">
+        <section className="w-full h-64 md:h-96 bg-linear-to-br from-blue-100 to-purple-100 flex items-center justify-center">
           <span className="text-gray-600 text-xl md:text-2xl font-medium">Imagen del Post</span>
         </section>
 
@@ -111,11 +109,11 @@ export default function SingleBlogPost({ params }: { params: Promise<{ slug: str
                 <div key={relatedPost.id} className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
                   <div className="flex gap-4">
                     <div className="shrink-0">
-                      <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
-                        <span className="text-gray-500 text-xs font-medium">Img</span>
+                      <div className="w-16 h-16 bg-linear-to-br from-blue-100 to-purple-100 rounded-lg flex items-center justify-center">
+                        <span className="text-gray-600 text-xs font-medium">Img</span>
                       </div>
                     </div>
-                    <div className="flex-grow">
+                    <div className="grow">
                       <h3 className="text-lg font-semibold text-gray-900 mb-2">
                         {relatedPost.title}
                       </h3>
