@@ -48,7 +48,7 @@ Los ejemplos prácticos demuestran cómo implementar correctamente los patrones 
 
 Dominar estas técnicas te convertirá en un desarrollador más competente y valioso. Recuerda que el aprendizaje es un proceso continuo, y cada proyecto es una oportunidad para mejorar y expandir tus habilidades.`,
     featured: true,
-    thumbnail: '/images/blog-nextjs.jpg',
+    thumbnail: '/images/blog-laravel-microservices.jpg',
     author: 'Juan Developer',
     date: '15 de febrero, 2024'
   },

@@ -13,14 +13,18 @@ export default function BlogPostCard({ post, featured = false, variant = 'blogpa
   if (variant === 'homepage') {
     return (
       <div className={`${featured ? 'bg-white p-6 rounded-lg shadow-md' : 'bg-white p-4 rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200'}`}>
-        {post.thumbnail && (
-          <div className={`${featured ? 'mb-4' : 'mb-3'}`}>
-            <UI.ImagePlaceholder 
-              text="Imagen" 
-              size={featured ? 'large' : 'small'}
-            />
+        <div className={`${featured ? 'mb-4' : 'mb-3'}`}>
+          <div className="w-full h-48 bg-linear-to-br from-blue-100 to-purple-100 rounded-lg flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gray-300 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                <svg className="w-8 h-8 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <span className="text-gray-600 text-sm font-medium">Imagen</span>
+            </div>
           </div>
-        )}
+        </div>
         <h3 className={`${featured ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 mb-2`}>
           {post.title}
         </h3>
@@ -45,10 +49,16 @@ export default function BlogPostCard({ post, featured = false, variant = 'blogpa
         <div className="flex gap-4">
           {/* Imagen a la izquierda */}
           <div className="shrink-0">
-            <UI.ImagePlaceholder 
-              text="Imagen" 
-              size="medium"
-            />
+            <div className="w-24 h-24 bg-linear-to-br from-blue-100 to-purple-100 rounded-lg flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-gray-300 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <span className="text-gray-600 text-xs font-medium">Imagen</span>
+              </div>
+            </div>
           </div>
           
           {/* Contenido a la derecha */}
@@ -79,10 +89,16 @@ export default function BlogPostCard({ post, featured = false, variant = 'blogpa
         // Hero destacado - dos columnas
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="order-2 lg:order-1">
-            <UI.ImagePlaceholder 
-              text="Imagen destacada" 
-              size="hero"
-            />
+            <div className="w-full h-64 bg-linear-to-br from-blue-100 to-purple-100 rounded-lg flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-20 h-20 bg-gray-300 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                  <svg className="w-10 h-10 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <span className="text-gray-600 text-lg font-medium">Imagen destacada</span>
+              </div>
+            </div>
           </div>
           
           <div className="order-1 lg:order-2">
@@ -109,10 +125,16 @@ export default function BlogPostCard({ post, featured = false, variant = 'blogpa
         // Tarjeta normal para la grilla
         <div>
           <div className="mb-4">
-            <UI.ImagePlaceholder 
-              text="Imagen" 
-              size="large"
-            />
+            <div className="w-full h-48 bg-linear-to-br from-blue-100 to-purple-100 rounded-lg flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gray-300 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                  <svg className="w-8 h-8 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <span className="text-gray-600 text-sm font-medium">Imagen</span>
+              </div>
+            </div>
           </div>
           <h3 className="text-lg font-semibold text-gray-900 mb-2">
             {post.title}

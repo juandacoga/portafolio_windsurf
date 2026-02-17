@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import BlogPostCard from '../BlogPostCard';
 import { blogPosts } from '../../data/blogPosts';
 
@@ -51,7 +52,7 @@ describe('BlogPostCard Component', () => {
   it('applies hover effects', () => {
     render(<BlogPostCard post={mockPost} variant="homepage-horizontal" />);
     
-    const card = screen.getByText(mockPost.title).closest('div');
+    const card = screen.getByText(mockPost.title).closest('div')?.parentElement?.parentElement;
     expect(card).toHaveClass('hover:shadow-lg');
   });
 });

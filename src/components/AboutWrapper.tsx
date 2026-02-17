@@ -1,14 +1,24 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import AboutLoading from './AboutLoading';
-import { useLoadingState } from '../hooks/useLoadingState';
 import Link from 'next/link';
 import { projects, talks } from '../data/aboutData';
+import ProjectCard from './ProjectCard';
+import { UI } from './ui';
 
 export default function AboutWrapper() {
-  const loading = useLoadingState(400);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   if (loading) {
     return <AboutLoading />;
@@ -28,7 +38,14 @@ export default function AboutWrapper() {
                 <div className="order-2 lg:order-1">
                   <div className="w-full max-w-sm mx-auto lg:mx-0">
                     <div className="w-full h-80 bg-linear-to-br from-blue-100 to-purple-100 rounded-2xl shadow-lg flex items-center justify-center">
-                      <span className="text-gray-600 text-lg font-medium">Foto de perfil</span>
+                      <div className="text-center">
+                        <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-3 flex items-center justify-center">
+                          <svg className="w-10 h-10 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <span className="text-gray-600 text-lg font-medium">Foto de perfil</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -72,44 +89,21 @@ export default function AboutWrapper() {
 
         {/* Projects Section */}
         <section className="py-16 bg-gray-50">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-              Proyectos
-            </h2>
+          <UI.PageContainer>
+            <UI.SectionHeading>Proyectos</UI.SectionHeading>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {projects.map((project) => (
-                <div key={project.id} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
-                  <div className="aspect-video bg-linear-to-br from-blue-100 to-purple-100 flex items-center justify-center">
-                    <span className="text-gray-600 text-sm font-medium">Imagen del proyecto</span>
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-gray-900 mb-2 text-sm">
-                      {project.title}
-                    </h3>
-                    <p className="text-gray-600 text-xs mb-3 line-clamp-2">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-1">
-                      {project.tech.slice(0, 2).map((tech, index) => (
-                        <span key={index} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                <ProjectCard key={project.id} project={project} />
               ))}
             </div>
-          </div>
+          </UI.PageContainer>
         </section>
 
         {/* Talks Section */}
         <section className="py-16 bg-white">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-              Charlas
-            </h2>
+          <UI.PageContainer>
+            <UI.SectionHeading>Charlas</UI.SectionHeading>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {talks.map((talk) => (
@@ -118,7 +112,14 @@ export default function AboutWrapper() {
                     {/* Thumbnail */}
                     <div className="shrink-0">
                       <div className="w-full md:w-32 h-24 bg-linear-to-br from-blue-100 to-purple-100 rounded-lg flex items-center justify-center">
-                        <span className="text-gray-600 text-xs font-medium">Charla</span>
+                        <div className="text-center">
+                          <div className="w-12 h-12 bg-gray-300 rounded mx-auto mb-2 flex items-center justify-center">
+                            <svg className="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                            </svg>
+                          </div>
+                          <span className="text-gray-600 text-sm font-medium">Charla</span>
+                        </div>
                       </div>
                     </div>
 
@@ -155,7 +156,7 @@ export default function AboutWrapper() {
                 </div>
               ))}
             </div>
-          </div>
+          </UI.PageContainer>
         </section>
       </main>
 

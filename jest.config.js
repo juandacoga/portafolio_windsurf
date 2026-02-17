@@ -15,13 +15,27 @@ const createJestConfig = nextJest({
     'src/**/*.{js,jsx,ts,tsx}',
     '!src/**/*.d.{ts,tsx}',
     '!src/**/*.stories.{js,jsx,ts,tsx}',
+    '!src/test-utils.tsx',
   ],
   coverageThreshold: {
     global: {
-      branches: 80,
-      functions: 80,
-      lines: 80,
-      statements: 80,
+      branches: 85,
+      functions: 85,
+      lines: 85,
+      statements: 85,
+    },
+  },
+  testMatch: [
+    '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
+    '<rootDir>/src/**/*.{test,spec}.{js,jsx,ts,tsx}',
+  ],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!(.*\\.mjs$))',
+  ],
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.json',
     },
   },
 })
