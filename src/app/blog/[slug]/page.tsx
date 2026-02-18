@@ -1,21 +1,50 @@
 'use client';
 
-import { blogPosts } from '../../../data/blogPosts';
 import Link from 'next/link';
 import { useEffect, useState, use } from 'react';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
+import { getBlogPost, getBlogPosts } from '../../../lib/api';
+import { BlogPost } from '../../../lib/api';
 
 export default function SingleBlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = use(params);
-  const [post, setPost] = useState<any>(null);
+  const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const foundPost = blogPosts.find(p => p.id === resolvedParams.slug);
-    setPost(foundPost);
-    setLoading(false);
+    const loadPost = async () => {
+      try {
+        const foundPost = await getBlogPost(resolvedParams.slug);
+        setPost(foundPost);
+      } catch (err) {
+        setError('No se pudo cargar el post');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPost();
   }, [resolvedParams.slug]);
+
+  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
+
+  useEffect(() => {
+    const loadRelatedPosts = async () => {
+      try {
+        const allPosts = await getBlogPosts();
+        const related = allPosts.filter(p => p.id !== resolvedParams.slug).slice(0, 4);
+        setRelatedPosts(related);
+      } catch (err) {
+        console.error('Error loading related posts:', err);
+      }
+    };
+
+    if (post) {
+      loadRelatedPosts();
+    }
+  }, [post, resolvedParams.slug]);
 
   if (loading) {
     return (
@@ -29,22 +58,22 @@ export default function SingleBlogPost({ params }: { params: Promise<{ slug: str
     );
   }
 
-  if (!post) {
+  if (error || !post) {
     return (
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="grow flex items-center justify-center">
-          <p className="text-xl text-gray-700">Post no encontrado</p>
-          <Link href="/blog" className="ml-4 text-blue-600 hover:text-blue-800">
-            Volver al blog
-          </Link>
+          <div className="text-center">
+            <p className="text-xl text-gray-700 mb-4">{error || 'Post no encontrado'}</p>
+            <Link href="/blog" className="ml-4 text-blue-600 hover:text-blue-800">
+              Volver al blog
+            </Link>
+          </div>
         </main>
         <Footer />
       </div>
     );
   }
-
-  const relatedPosts = blogPosts.filter(p => p.id !== resolvedParams.slug).slice(0, 4);
 
   return (
     <div className="min-h-screen flex flex-col">

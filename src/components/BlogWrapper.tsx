@@ -5,17 +5,56 @@ import Footer from './Footer';
 import BlogPostCard from './BlogPostCard';
 import BlogLoading from './BlogLoading';
 import { useLoadingState } from '../hooks/useLoadingState';
-import { blogPosts } from '../data/blogPosts';
+import { getBlogPosts } from '../lib/api';
+import { useEffect, useState } from 'react';
+import { BlogPost } from '../lib/api';
 
 export default function BlogWrapper() {
   const loading = useLoadingState(300);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        const blogPosts = await getBlogPosts();
+        setPosts(blogPosts);
+      } catch (err) {
+        setError('No se pudieron cargar los posts');
+      }
+    };
+
+    if (!loading) {
+      loadPosts();
+    }
+  }, [loading]);
 
   if (loading) {
     return <BlogLoading />;
   }
 
-  const featuredPost = blogPosts.find(post => post.featured);
-  const otherPosts = blogPosts.filter(post => !post.featured);
+  if (error) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="grow flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-xl text-red-600 mb-4">{error}</p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              Reintentar
+            </button>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  const featuredPost = posts.find(post => post.featured);
+  const otherPosts = posts.filter(post => !post.featured);
 
   return (
     <div className="min-h-screen flex flex-col">

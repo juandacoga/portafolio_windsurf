@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BlogPost } from '../data/blogPosts';
+import { BlogPost } from '../lib/api';
 import { UI } from './ui';
 
 interface BlogPostCardProps {

@@ -33,6 +33,25 @@ jest.mock('../ProjectCard', () => {
   };
 });
 
+jest.mock('../Header', () => {
+  return function MockHeader() {
+    return <header data-testid="header">Header</header>;
+  };
+});
+
+jest.mock('../Footer', () => {
+  return function MockFooter() {
+    return <footer data-testid="footer">Footer</footer>;
+  };
+});
+
+// Mock Next.js Link
+jest.mock('next/link', () => {
+  return function MockLink({ children, href }: any) {
+    return <a href={href}>{children}</a>;
+  };
+});
+
 // Mock timer to speed up loading state
 jest.useFakeTimers();
 

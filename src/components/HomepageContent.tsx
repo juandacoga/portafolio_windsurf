@@ -1,12 +1,32 @@
 'use client';
 
 import BlogPostCard from './BlogPostCard';
-import { blogPosts } from '../data/blogPosts';
+import { getBlogPosts } from '../lib/api';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { BlogPost } from '../lib/api';
 
 export default function HomepageContent() {
-  const featuredPost = blogPosts.find(post => post.featured);
-  const otherPosts = blogPosts.filter(post => !post.featured).slice(0, 3);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        const blogPosts = await getBlogPosts();
+        setPosts(blogPosts);
+      } catch (error) {
+        console.error('Error loading posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPosts();
+  }, []);
+
+  const featuredPost = posts.find(post => post.featured);
+  const otherPosts = posts.filter(post => !post.featured).slice(0, 3);
 
   return (
     <>
@@ -69,24 +89,34 @@ export default function HomepageContent() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Featured Post */}
-            <div className="lg:col-span-1">
-              {featuredPost && (
-                <BlogPostCard post={featuredPost} featured={true} variant="homepage" />
-              )}
+          {loading ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600">Cargando posts...</p>
             </div>
-            
-            {/* Other Posts */}
-            <div className="lg:col-span-1">
-              <h3 className="text-2xl font-bold text-gray-900 mb-8">Últimos posts</h3>
-              <div className="space-y-6">
-                {otherPosts.map((post) => (
-                  <BlogPostCard key={post.id} post={post} featured={false} variant="homepage-horizontal" />
-                ))}
+          ) : posts.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600">No hay posts disponibles en este momento.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              {/* Featured Post */}
+              <div className="lg:col-span-1">
+                {featuredPost && (
+                  <BlogPostCard post={featuredPost} featured={true} variant="homepage" />
+                )}
+              </div>
+              
+              {/* Other Posts */}
+              <div className="lg:col-span-1">
+                <h3 className="text-2xl font-bold text-gray-900 mb-8">Últimos posts</h3>
+                <div className="space-y-6">
+                  {otherPosts.map((post) => (
+                    <BlogPostCard key={post.id} post={post} featured={false} variant="homepage-horizontal" />
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
     </>
